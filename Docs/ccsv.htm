@@ -1,0 +1,48 @@
+<html>
+<head><title>GNU Library Docs - CCSV </title></head>
+<body>
+
+<h1>CCSV </h1>
+
+<h2>Description</h2>
+The CCSV class is a simple class that is used to compose and decompose
+CSV strings.  A CSV string is a string that contains comma separated
+value strings (otherwise known as elements).  a CSV string looks like
+this:<br>
+
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+Eat, Your, Wheaties
+</code></td></tr></table></center><br>
+
+This is a SCV string composed of three elements.  If any of the elements
+contain an imbedded comma, a double quote or significant leading or trailing
+whitespace, the entire element is double quoted.  And in the case of inbedded
+double quotes, each double quote is doubled up.  So a CSV line could look 
+like this:<br>
+
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+	"Bart's pet poodle?", "Bart says ""Bring em on!"""<br>
+</code></td></tr></table></center><br>
+
+
+<h2>ClassMembers</h2>
+
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+	<b>CCSV</b>();														 <br>
+	<b>CCSV</b>(CString s, BOOL bClean=TRUE);					 <br>
+	virtual <b>~CCSV</b>();											    <br>
+	int <b>Split</b> (CString s, BOOL bClean=TRUE);			 <br>
+	CString <b>GetPart</b> (int iPart);							 <br>
+	int <b>GetPartInt</b> (int iPart);							 <br>
+	CString <b>SetPart</b> (CString strPart, int iPart);	 <br>
+	int <b>GetPartCount</b> ();									 <br>
+</code></td></tr></table></center><br>
+
+This needs to be finished...<br>
+
+<h2>Samples</h2>
+
+This needs to be finished...<br>
+
+</body>
+</html>

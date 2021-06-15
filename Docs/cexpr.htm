@@ -1,0 +1,154 @@
+<html>
+<head><title>GNU Library Docs - CExpr</title></head>
+<body>
+
+<h1>CExpr </h1>
+
+<hr>
+<h2>Description</h2>
+	This class is used to evaluate math expressions.  The class takes a string 
+	as input and evaluates the string as a numeric expression.  Math operators
+	variables and single and multiple parameter functions are supported.
+
+
+	You can use it like this:<br>
+
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+		CExpr expr;																		<br>
+		double d1 = expr.Eval ("100 * 6.17 * (14.447 - 3^2) + 8 % 2");	<br>
+		double d2 = expr.Eval ("x * y / sin(pi / 12)");						<br>
+</code></td></tr></table></center><br>
+
+	or like this:<br>
+
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+		CExpr expr;									<br>
+		expr.Compile ("x*100 + y*10 + z");	<br>
+		double d3 = expr.Exec ();				<br>
+</code></td></tr></table></center><br>
+
+	The 2nd method is much faster if the same expression is being executed 
+	multiple times - the parse/codegen only happens once.<br>
+
+	CExpr supports internal and external variables and functions.  for example:<br>
+
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+		// internal vars and functions samples:						<br>
+		CExpr expr;																<br>
+		expr.Eval ("x = 100 / pi");										<br>
+		expr.Eval ("y = x^3");												<br>
+		expr.Eval ("foo(x) = x*x + x*(x/10) + x");					<br>
+		expr.Eval ("bar(x,y,z) = (x*y + y*z + x*z)^(1/3)");		<br>
+		double d4 = expr.Exec ("foo (30) + 10.5");					<br>
+		double d5 = expr.Exec ("bar (x, y, foo (y))");				<br>
+																					<br>
+		// external vars samples:											<br>
+		CExpr expr;																<br>
+      double dClyde = 10.0;												<br>
+		expr.AddVar ("fred", 20.5);										<br>
+		expr.AddVarRef ("clyde", &dClyde);								<br>
+		expr.Eval ("clyde = clyde + fred");								<br>
+		assert (dClyde == 30.5)												<br>
+																					<br>
+		// external fns sample:												<br>
+		expr.AddFn ("eigenval2" (MATHFN2)MyEigenValFn);				<br>
+		double d6 = expr.Eval ("eigenval2 (14, 3.33378)");			<br>
+</code></td></tr></table></center><br>								
+
+<h3>operator precidence (low to high):</h3>
+<pre>
+	+= /= =  %= *= -=  -- assignment			  
+	?                  -- ternary operator	  
+	||                 -- logical or			  
+	&&                 -- logical and		  
+	|                  -- bitwose or			  
+	&                  -- bitwise and		  
+	== !=              -- boolean comparison 
+	>= > <= <          -- boolean comparison 
+	<< >>              -- base 10 shift		  
+	+  -               -- add,subtract		  
+	/  %  *            -- div,mod,mult		  
+	^                  -- power				  
+	()                 -- parenthesis		  
+</pre>
+
+<h3>Pre defined functions:</h3>
+<pre>
+	abs()    		acos()   
+	asin()   		atan()   
+	ceil()			cos()    
+	cosh()   		exp()    
+	floor()  		log()
+	log10()  		sin()    
+	sinh()   		sqrt()   
+	tan()		
+</pre>
+
+<h3>Pre defined variables:</h3>
+<pre>
+	pi
+	e
+</pre>
+
+
+
+
+<hr>
+<h2>ClassMembers</h2>
+
+<table cellspacing=2>
+<tr><td colspan=4><b>Class Variables:</b></td></tr>
+<tr><td width=10>&nbsp;&nbsp;</td><td>double </td><td align=right><a href="">m_d				</a></td><td>											 </td></tr>
+<tr><td colspan=4><b>Constructor / Destructor:</b></td></tr>
+<tr><td></td><td>			</td><td align=right><a href="">CExpr 			</a></td><td>() 										 </td></tr>
+<tr><td></td><td>			</td><td align=right><a href="">CExpr			</a></td><td>(LPCTSTR pszExpr) 					 </td></tr>			  
+<tr><td></td><td>			</td><td align=right><a href="">~CExpr			</a></td><td> () 										 </td></tr>			  
+
+<tr><td colspan=4><b>Main members:</b></td></tr>
+<tr><td></td><td>double	</td><td align=right><a href="">Eval  			</a></td><td>(LPCTSTR pszExpr) 					 </td></tr>	  
+<tr><td></td><td>int		</td><td align=right><a href="">Compile		</a></td><td> (LPCTSTR pszExpr) 					 </td></tr>	  
+<tr><td></td><td>double	</td><td align=right><a href="">Exec 			</a></td><td>() 										 </td></tr>	  
+
+<tr><td colspan=4><b>Members to add external C functions:</b></td></tr>
+<tr><td></td><td>void	</td><td align=right><a href="">AddFn 			</a></td><td>(LPCTSTR pszIdent, MATHFN0 pfn) 	 </td></tr>	  
+<tr><td></td><td>void	</td><td align=right><a href="">AddFn 			</a></td><td>(LPCTSTR pszIdent, MATHFN1 pfn) 	 </td></tr>	  
+<tr><td></td><td>void	</td><td align=right><a href="">AddFn 			</a></td><td>(LPCTSTR pszIdent, MATHFN2 pfn) 	 </td></tr>	  
+<tr><td></td><td>void	</td><td align=right><a href="">AddFn 			</a></td><td>(LPCTSTR pszIdent, MATHFN3 pfn) 	 </td></tr>	  
+<tr><td></td><td>void	</td><td align=right><a href="">AddFn 			</a></td><td>(LPCTSTR pszIdent, MATHFN4 pfn) 	 </td></tr>	  
+
+<tr><td colspan=4><b>Members to add variables:</b></td></tr>
+<tr><td></td><td>void	</td><td align=right><a href="">AddVar			</a></td><td> (LPCTSTR pszIdent, double dVal)  </td></tr>		  
+<tr><td></td><td>void	</td><td align=right><a href="">AddVar			</a></td><td> (LPCTSTR pszIdent, int iVal) 	 </td></tr>		  
+<tr><td></td><td>void	</td><td align=right><a href="">AddVarRef 	</a></td><td>(LPCTSTR pszIdent, double* pdVal) </td></tr>
+<tr><td></td><td>void	</td><td align=right><a href="">AddVarRef 	</a></td><td>(LPCTSTR pszIdent, int* piVal) 	 </td></tr>
+
+<tr><td colspan=4><b>Members to get variables:</b></td></tr>
+<tr><td></td><td>BOOL	</td><td align=right><a href="">GetVar 		</a></td><td>(LPCTSTR pszIdent, double* pVal)  </td></tr>	  
+<tr><td></td><td>double*</td><td align=right><a href="">GetVarRef 	</a></td><td>(LPCTSTR pszIdent) 				  	 </td></tr>
+
+<tr><td colspan=4><b>Misc Members:</b></td></tr>
+<tr><td></td><td>void	</td><td align=right><a href="">ShareScope 	</a></td><td>(CExpr* pExpr) 						 </td></tr>
+<tr><td></td><td>BOOL	</td><td align=right><a href="">UseGlobalScope</a></td><td>(BOOL bGlobal) 					  	 </td></tr>
+<tr><td></td><td>int		</td><td align=right><a href="">IsError 		</a></td><td>(LPCTSTR &strErr, int &iIndex) 	 </td></tr>	  
+<tr><td></td><td>int		</td><td align=right><a href="">Dump 			</a></td><td>(LPCTSTR strFile) 					 </td></tr>		  
+</table>
+
+<hr>
+<h2>Typedefs</h2>
+If you are planning to use the AddFn member to add your own math functions
+that are to be callable from math expressions, you will need to make sure
+your function is compatible with one of these fn prototypes:<br>
+<pre>
+	typedef double (*MATHFN0) ();															
+	typedef double (*MATHFN1) (double d1);												
+	typedef double (*MATHFN2) (double d1, double d2);								
+	typedef double (*MATHFN3) (double d1, double d2, double d3);				
+	typedef double (*MATHFN4) (double d1, double d2, double d3, double d4);	
+</pre>
+<hr>
+<h2>Samples</h2>
+
+See description above for samples.
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<html>
+<head><title>GNU Library Docs - </title></head>
+<body>
+
+<h1>CDynaDialog</h1>
+
+<hr>
+<h2>Description</h2>
+
+This class extends the functionality of the MFC CDialog class.  This class
+is a direct replacement for CDialog and provides 3 main extensions:<br>
+<li>Dynamic Fonts
+<li>Dynamic Control Moving/Resizing
+<li>Tiled Bitmaps or color fades for Background 
+
+<h4>Implementing the CDynaDialog  Class 								 </h4>
+CDynaDialog works just like CDialog.  In fact, the easiest way to use this class
+is to create a standard dialog and then replace references to CDialog with
+CDynaDialog.  Then, in between creating the Class and calling DoModal, you can
+call additional functions to turn on these new features.  There is some sample 
+source at the bottom of this page
+
+<h4>Using Dynamic Fonts									 </h4>
+To set the font used in the dialog, call the SetFont() member function before calling
+DoModal().
+
+
+<a name="Using_Dynamic_Control_Resizing"></a>
+<h4>Using Dynamic Control Resizing</h4>
+This feature allows you to setup how the controls should move around and/or
+resize when your window changes dimensions.  The CSynaDialog class allows
+you to setup the controls completely from within the standard dialog editor.<br>
+To use this feature:<br>
+<b>1.></b> Create your dialog in the dialog editor as usual.<br>
+<b>2.></b> Create a static text control and turn off it's visible property.  Name it something
+like IDC_MR (Move Right). Now, each control that intersects this control will 
+automatically move relative to the right edge of the screen.<br>
+<b>3.></b>Repeat step 2 as needed using IDC_SR (Size Right), IDC_MB (Move Bottom), IDC_SB (Size Bottom),
+and/or IDC_CT (Center).
+<b>4></b> After creating the Dialog class, but before calling DoModal, call the UseResizingControls()
+	fn like this:<br><br>
+
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+	UseResizingControls (TRUE, IDC_MR, IDC_SR, IDC_MB, IDC_SB, IDC_CT);
+</code></td></tr></table></center>
+<li>The first parameter is a True/False, determining if the feature should be turned on   <br>
+<li>The second Param is the ID of the control that implements the MoveRight	functionality <br>
+<li>The third  Param is the ID of the control that implements the SizeRight	functionality <br>
+<li>The fourth Param is the ID of the control that implements the MoveBottom functionality<br>
+<li>The fifth  Param is the ID of the control that implements the SizeBottom functionality<br>
+<li>The sixth  Param is the ID of the control that implements the KeepCenter functionality<br>
+Any of the control parameters may be set to -1 to turn off that particular function.
+
+
+<h4>Using Background Tiled Bitmaps or color fades</h4>
+Call the SetBkg() function before calling DoModal(). There are 2 forms of SetBkg(): 
+One for setting a fade and one for setting a tiled bitmap. The Form for setting the
+bitmap background comes in 2 flavors, one for loading a bitmap from a file and one
+for loading a bitmap resource.  Some controls are not really transparent, so the 
+Bitmap form also has you provide a background color that is used on some of the 
+controls (like radio buttons).  With a suitable background color and a suitably
+bland background you can achieve good results.<br>
+
+
+<hr>
+<h2>ClassMembers</h2>
+
+<center><table width="95%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code>
+	<b>CDynaDialog</b>(UINT uID, CWnd* pParent = NULL);   // standard constructor<br>
+																										 			<br>
+	//	DynaView settings																			 			<br>
+	//	Call these between construction and DoModal										 			<br>
+	BOOL <b>SetFont</b> (CString strFontName, int iFontSize=12);								<br>
+	BOOL <b>SetBkg </b> (COLORREF clrTop, COLORREF clrBottom, COLORREF clrText);		 	<br>
+	BOOL <b>SetBkg </b> (LPCTSTR lpctBitmap, COLORREF clrBackground, COLORREF clrText);	<br>
+	BOOL <b>UseBkgIfNotHiColor </b>(BOOL bUse=TRUE);												<br>
+	BOOL <b>UseResizingControls</b> (BOOL bUse=TRUE,int iMR=-1,int iSR=-1,int iMB=-1,int iSB=-1,int iCT=-1)<br>
+	COLORREF <b>GetColor</b> (int iColorType);																	<br>
+</code></td></tr></table></center><br>
+
+
+<br>
+<font size=+1 color=#200808><b>CDynaDialog (UINT uID, CWnd* pParent = NULL)										</b></font><br>
+The standard constructor.  It's just like CDialog.<br><br>
+
+<font size=+1 color=#200808>BOOL <b>SetFont (CString strFontName, int iFontSize=12)															</b></font><br>
+Input is the name and size of the font you want to use in the dialog box.  Behind the 
+scene, the font is changed in the resource directly so there is no need for lots of 
+resize/move crapola.<br>
+Must be called before calling DoModal().<br><br>
+
+<font size=+1 color=#200808>BOOL <b>SetBkg (COLORREF clrTop, COLORREF clrBottom, COLORREF clrText)										</b> </font><br>
+Sets the background for the dialog to be a color fade.  you can use the RGB() macro to create
+the COLORREF params.  By default this feature is turned off unless the display is showing more
+than 256 colors.<br>
+Must be called before calling DoModal().<br><br>
+
+<font size=+1 color=#200808>BOOL <b>SetBkg (LPCTSTR lpctBitmap, COLORREF clrBackground, COLORREF clrText)							</b> </font><br>
+Sets the background for the dialog to be a tiled bitmap.  lpctBitmap is the string containing the
+name and path of the BMP file. clrBackground is the color to use for controls that look, but aren't
+really, transparent.  Radio buttons are a good example. pick a clrBackground that is close to the 
+predominant color of the background bitmap. clrText is the color of the control text.<br><br>
+																		    
+<font size=+1 color=#200808>BOOL <b>UseBkgIfNotHiColor (BOOL bUse=TRUE)																			</b></font><br>
+This determines if the class should do the special background painting even if were in a paletted
+display mode (256 or 16 colors).   It defaults to off.  Sometimes bitmaps and fades look pretty
+crappy in a paletted display.<br><br>
+
+<font size=+1 color=#200808>BOOL <b>UseResizingControls (BOOL bUse=TRUE,int iMR=-1,int iSR=-1,int iMB=-1,int iSB=-1,int iCT=-1)</b></font><br>
+This fn both enables the resizing control function and identifies the special controls.
+bUse turns the function on or off.<br>
+iMR identifies the ID of the control to use for the MoveRight Function.  Then, and control that
+intersects this control will be moved relative to the right side of the dialog.
+See the <a href="#Using_Dynamic_Control_Resizing">Using Dynamic Control Resizing</a> above for details
+<br><br>
+
+<font size=+1 color=#200808>COLORREF <b>GetColor (int iColorType)																					</b></font><br>
+Returns a color.  The possible iColorTypes are:
+<font color=#200808><pre>
+	DCT_TOPCOLOR	
+	DCT_BOTTOMCOLOR
+	DCT_TEXTCOLOR  
+	DCT_BKGCOLOR	
+</pre></font>
+<br><br>
+
+
+<hr>
+<h2>Example</h2>
+
+Here is an example:
+
+1> Add to stdafx.h:<br>
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code><pre>
+	#include <g_dynaview.h>
+</pre></code></td></tr></table></center><br>
+
+2> Create your dialog as normal.  Then edit the Header and change the baseclass:<br>
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code><pre>
+	from: class CSampleDialog : public CDialog
+	to:   class CSampleDialog : public CDynaDialog
+</pre></code></td></tr></table></center>
+	And change the other CDialog references to CDynaDialog in both the .h and .cpp files.<br><br>
+
+3> Call the dialog like this:
+<center><table width="90%" cellpadding=1><tr><td bgcolor="#EEEEFE"><code><pre>
+	{
+	//	This sample code works just like  normal dialog code
+	//	but in between the dialog class creation and the DoModal call
+	//	we can do the interesting setup stuff.
+	//
+	CSampleDialog	cDlg;
+
+	// change the font!
+	cDlg.SetFont ("Arial Bold",  15);
+
+	// To setup a background colorfade (COLORREF variables)
+	cDlg.SetBkg (clrTop, clrBottom, clrFont);
+	// or use a tiled bitmap for the background
+	//cDlg.SetBkg ("Bkg2.bmp", m_clrBkg, m_clrFont);
+
+	// let the controls resize themselves & tell the dialog
+	// which controls are used to control the resizing
+	cDlg.UseResizingControls (TRUE, IDC_MR, IDC_SR, IDC_MB, IDC_SB);
+
+	cDlg.DoModal ();
+	}
+</pre></code></td></tr></table></center><br>
+
+<h2>Samples</h2>
+
+Sample project <a href="dynatest.htm">DynaTest</a><br>
+<a href="dynatest.htm">Samples Index</a><br>
+<hr>
+<a href="index.htm">GNU library Index</a><br>
+
+</body>
+</html>

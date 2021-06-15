@@ -1,0 +1,112 @@
+<html>
+<head><title>GNU Library Docs</title></head>
+<body>
+<h1>GNU Library</h1>
+
+This is the reference documentation for the GNU library.  The GNU Library is a set of 
+miscellaneous C++ classes.  The classes in this library come in 2 flavors: general 
+purpose classes (such as CExpr and CZipArchive) and classes which extend MFC classes
+(such as CDynaDialog).<br><br>
+You can download the lib and it's headers from <a href="download.htm">here</a>.<br>
+The Samples index is <a href="samples.htm">here</a>.<br>
+If you need support go <a href="support.htm">here</a>.<br>
+
+<br><br>
+
+<hr>
+<h2>String Handling Classes</h2>
+These classes manipulate strings<br><br>
+<table border=0 cellspacing=5 cellpadding=2>
+   <tr>
+   	<td><a href="ccsv.htm">CCSV</a></td>
+   	<td></td>
+		<td>Comma Separated Value string handling.  This class will eventually be expanded
+		    to handle other multi-string types
+		</td>
+	</tr>
+</table>
+
+<hr>
+<h2>Dynamic Dialog Classes</h2>
+These classes extend dialog functionality.  Specifically, these classes
+allow you to dynamically change the font, change the background to use
+a tiled bitmap or a color fade, and support for dynamically resizing
+controls while a window is being resized.<br><br>
+
+<table border=0 cellspacing=5 cellpadding=2>
+   <tr>
+		<td><a href="cdynadialog.htm">CDynaDialog</a></td>
+   	<td></td>
+		<td>Dynamic Dialogs.  A direct replacement for CDialog</td>
+	</tr>
+   <tr>
+		<td><a href="cdynaformview.htm">CDynaFormView</a></td>
+   	<td></td>
+		<td>Dynamic Form Views.  A direct replacement for CFormView</td>
+	</tr>
+   <tr>
+		<td><a href="cdynapropertypage.htm">CDynaPropertyPage</a></td>
+   	<td></td>
+		<td>Dynamic Property Pages.  A direct replacement for CPropertyPage</td>
+	</tr>
+</table>
+
+<hr>
+<h2>Numeric Expressions</h2>
+Math related classes<br><br>
+
+<table border=0 cellspacing=5 cellpadding=2>
+   <tr>
+		<td><a href="cexpr.htm">CExpr</a></td>
+   	<td></td>
+		<td>Expression Evaluator.  Converts an expression string into a numeric value.
+   		 In it's simplest form it can be used as a replacement for the atoi or atof function.
+			 You can add also C or string based functions, create and recall variables, bind 
+			 variables to actual program variables, etc...  You can also pre compile expressions
+			 for very fast execution in loops.  Uses a homegrown virtual machine for fast exec.
+		</td>
+	</tr>
+</table>
+
+<hr>
+<h2>File Compression & Archiving</h2>
+These classes allow simple methods to read and write zip and gzip files.<br><br>
+
+<table border=0 cellspacing=5 cellpadding=2>
+   <tr>
+		<td><a href="cziparchive.htm">CZipArchive</a></td>
+   	<td></td>
+		<td>Allows simple access to read and write Zip files.</td>
+	</tr>
+   <tr>
+		<td><a href="csecureziparchive.htm">CSecureZipArchive</a></td>
+   	<td></td>
+		<td>Allows simple access to read and write Zip files.  The files stored in the zip
+			 are gzipped and RC4 encrypted as they are read and written.  This is cool.
+	   </td>
+	</tr>
+   <tr>
+		<td><a href="cgzfile.htm">CGZFile</a></td>
+   	<td></td>
+		<td>Allows simple access to read and write GZip files.  GZip is like zip without
+		    archive support.
+		</td>
+	</tr>
+</table>
+
+<hr>
+<h2>Encryption</h2>
+Encryption Classes<br><br>
+
+<table border=0 cellspacing=5 cellpadding=2>
+   <tr>
+		<td><a href="crc4.htm">CRC4</a></td>
+   	<td></td>
+		<td>Extremely efficient and strong stream cypher.  It's also symmetric.</td>
+	</tr>
+</table>
+
+
+
+</body>
+</html>
